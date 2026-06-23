@@ -1,0 +1,332 @@
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --border: #cbd5e1;
+    --absent: #cbd5e1;
+    --present: #22c55e;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Top-Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.top-bar h1 { margin: 0; font-size: 1.8rem; color: var(--primary); }
+
+.profile-compact {
+    display: flex;
+    gap: 8px;
+    background: #e2e8f0;
+    padding: 6px;
+    border-radius: 8px;
+}
+.profile-compact select, .profile-compact input {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+.profile-compact button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Hauptinhalt */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.control-panel {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* НОВЕ: Стилі для масового імпорту списку */
+.import-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.import-section textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+}
+.import-section button {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.import-section button:hover { background: #059669; }
+
+.or-separator {
+    text-align: center;
+    margin: 15px 0;
+    position: relative;
+}
+.or-separator::before {
+    content: "";
+    position: absolute; left: 0; top: 50%; width: 100%; height: 1px; background: var(--border); z-index: 1;
+}
+.or-separator span {
+    background: var(--card-bg); padding: 0 15px; color: #94a3b8; font-size: 0.85rem; font-weight: bold; position: relative; z-index: 2;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+.input-group input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+.input-group button {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    padding: 0 25px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.hint {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin: 12px 0;
+}
+
+/* Schüler-Raster */
+.names-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Schüler-Kärtchen */
+.student-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #f0fdf4;
+    border: 2px solid var(--present);
+    color: #166534;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    user-select: none;
+    transition: all 0.2s;
+}
+
+.student-card.absent {
+    background: #f1f5f9;
+    border-color: var(--absent);
+    color: #94a3b8;
+    text-decoration: line-through;
+}
+
+.permanent-delete {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0 5px;
+}
+
+/* Startbereich */
+.action-zone {
+    margin-top: auto;
+    padding: 30px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.size-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.size-picker input {
+    width: 70px;
+    padding: 8px;
+    font-size: 1.2rem;
+    text-align: center;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+}
+
+.start-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 18px 50px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+    transition: transform 0.1s;
+}
+.start-btn:hover { background: var(--primary-hover); transform: scale(1.02); }
+
+/* Vollbild-Ergebnis */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.98);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.hidden { display: none !important; }
+
+/* Lade-Spinner */
+.loader-container { text-align: center; }
+.spinner {
+    width: 70px; height: 70px;
+    border: 8px solid #334155;
+    border-top: 8px solid #60a5fa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Riesiges Raster für Gruppen */
+.result-container {
+    width: 90%; height: 90%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.close-btn {
+    position: absolute; top: 0; right: 0;
+    background: #ef4444; color: white; border: none;
+    padding: 10px 20px; font-size: 1.2rem; font-weight: bold;
+    border-radius: 6px; cursor: pointer;
+}
+.result-title { text-align: center; font-size: 2.5rem; color: #38bdf8; margin-top: 0; }
+
+/* Сітка для карток результату — тепер вона автоматично балансує ширину */
+/* Контейнер для карток груп — центрує все та балансує кількість рядків */
+/* Контейнер для карток груп — тепер з ідеальним центруванням та легким відступом */
+.results-max-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px; /* Трохи більший простір між картками */
+    justify-content: center; /* Центрує групи на екрані */
+    overflow-y: auto;
+    flex: 1;
+    padding: 20px;
+    align-content: start;
+}
+
+/* Сама картка групи — сучасний мінімалістичний стиль «Neumorphism/Glass» */
+.group-giant-card {
+    background: #1e293b; /* Глибокий темно-синій фон картки, що пасує до загального інтерфейсу */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Дуже тонка стильна лінія навколо */
+    border-radius: 16px; /* Красиві закруглені кути */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Глибока м'яка тінь */
+    width: 250px; /* Фіксована збалансована ширина */
+    height: fit-content;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+/* Шапка картки (Gruppe 1, Gruppe 2...) — яскравий акцентний градієнт */
+.group-giant-card h3 {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8); /* Ефектний синій градієнт */
+    color: #ffffff; /* Чистий білий текст */
+    margin: 0;
+    padding: 14px 0;
+    font-size: 1.4rem;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase; /* Робимо заголовок більш структурованим */
+}
+
+/* Контейнер для списку імен */
+.group-names-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Невеликий відступ між плашками імен */
+    padding: 16px;
+}
+
+/* Стиль для кожного імені — тепер це акуратні окремі плашки */
+.group-student-name {
+    font-size: 1.6rem; /* Великий, жирний та дуже чіткий шрифт */
+    font-weight: 700;
+    color: #f8fafc; /* Світлий біло-блакитний текст, що ідеально контрастує з тлом */
+    text-align: center;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.05); /* Злегка прозора підкладка */
+    border-radius: 8px; /* Маленькі закруглення для імен */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.2s;
+}
+
+/* Ефект підсвічування імені при наведенні мишкою */
+.group-student-name:hover {
+    background: rgba(59, 130, 246, 0.15); /* Ніжне синє свічення */
+    border-color: rgba(59, 130, 246, 0.3);
+}
