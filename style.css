@@ -16,10 +16,13 @@ body {
     background-color: var(--bg);
     color: var(--text);
     margin: 0;
-    padding: 20px;
+    padding: 0;           /* Прибираємо глобальний паддінг, щоб сайт не вилазив за екран */
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    width: 100vw;         /* Чітка ширина екрана */
+    height: 100vh;        /* Чітка висота екрана — строго 100% */
+    overflow: hidden;     /* ПОВНІСТЮ СЕКРЕТ КУДИ ЗНИКАЄ СКРОЛЛБАР */
+    box-sizing: border-box;
 }
 
 /* Top-Bar */
@@ -263,32 +266,59 @@ body {
 }
 .result-title { text-align: center; font-size: 2.5rem; color: #38bdf8; margin-top: 0; }
 
-/* Сітка для карток результату — тепер вона автоматично балансує ширину */
-/* Контейнер для карток груп — центрує все та балансує кількість рядків */
-/* Контейнер для карток груп — тепер з ідеальним центруванням та легким відступом */
+/* Сітка результатів БЕЗ скролбарів */
 .results-max-grid {
     display: flex;
-    flex-wrap: wrap;
-    gap: 24px; /* Трохи більший простір між картками */
-    justify-content: center; /* Центрує групи на екрані */
-    overflow-y: auto;
-    flex: 1;
+    flex-wrap: wrap;          /* Картки переносяться як і раніше */
+    justify-content: center;   /* Центруємо групи */
+    align-content: flex-start; /* Тримаємося верху */
+    gap: 24px;                /* Твій оригінальний великий відступ */
     padding: 20px;
-    align-content: start;
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;          /* Повністю прибираємо білу смугу прокрутки */
 }
 
-/* Сама картка групи — сучасний мінімалістичний стиль «Neumorphism/Glass» */
+/* Картка групи — ПОВНІСТЮ ТВІЙ ОРИГІНАЛЬНИЙ СТИЛЬ */
 .group-giant-card {
-    background: #1e293b; /* Глибокий темно-синій фон картки, що пасує до загального інтерфейсу */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Дуже тонка стильна лінія навколо */
-    border-radius: 16px; /* Красиві закруглені кути */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Глибока м'яка тінь */
-    width: 250px; /* Фіксована збалансована ширина */
+    background: #1e293b;       /* Глибокий темно-синій фон */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 15px;             /* Внутрішній відступ, щоб плашки НЕ прилипали до країв */
+    width: 250px;              /* Твоя оригінальна збалансована ширина */
     height: fit-content;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     transition: transform 0.2s;
+    box-sizing: border-box;
+}
+
+/* ======================================================== */
+/* АВТО-ПІДЛАШТУВАННЯ ТІЛЬКИ ДЛЯ МАЛИХ/ОБМЕЖЕНИХ ЕКРАНІВ     */
+/* ======================================================== */
+@media (max-height: 820px) {
+    .results-max-grid {
+        gap: 12px;             /* Трішки зменшуємо простір між картками */
+        padding: 10px 20px;
+    }
+
+    .group-giant-card {
+        width: 210px;          /* Акуратно пропорційно зменшуємо ширину на дошці */
+        padding: 12px;         /* Зберігаємо відступи, просто робимо їх трохи компактнішими */
+        border-radius: 12px;
+    }
+
+    /* Зменшуємо шрифти, щоб довгі імена та шапки не розпирали картку вниз */
+    .group-giant-card h3 {
+        font-size: 1.1rem !important; 
+    }
+
+    .group-student-name {
+        font-size: 1.1rem !important; 
+        padding: 8px 10px !important;
+    }
 }
 
 /* Шапка картки (Gruppe 1, Gruppe 2...) — яскравий акцентний градієнт */
@@ -329,4 +359,42 @@ body {
 .group-student-name:hover {
     background: rgba(59, 130, 246, 0.15); /* Ніжне синє свічення */
     border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Перетягування мишкою */
+.group-student-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: grab;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.group-student-name.dragging {
+    opacity: 0.4;
+    transform: scale(0.95);
+    border: 1px dashed #38bdf8;
+}
+
+.drag-handle {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 1.1rem;
+    cursor: grab;
+}
+
+.group-student-name:hover .drag-handle {
+    color: #38bdf8;
+}
+
+.group-giant-card.drag-over {
+    border-color: #38bdf8;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    transform: scale(1.02);
+}
+
+.student-text-name {
+    flex: 1;
+    text-align: center;
+    word-break: break-word;
 }
