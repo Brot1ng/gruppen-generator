@@ -1,4 +1,4 @@
-// Повністю чисті дані без жодних дефолтних класів (наприклад, без Klasse 5A)
+
 let appData = JSON.parse(localStorage.getItem('teacherRandomizerData'));
 
 if (!appData || !appData.profiles) {
@@ -47,7 +47,7 @@ function updateProfileDropdown() {
 function renderNames() {
     namesList.innerHTML = '';
     
-    // Перевірка: якщо немає активного класу або взагалі немає профілів
+    
     if (!appData.currentProfile || !appData.profiles[appData.currentProfile]) {
         namesList.innerHTML = '<p class="hint">Erstellen Sie zuerst eine neue Klasse mit dem "+" Button oben rechts.</p>';
         return;
@@ -83,7 +83,7 @@ function renderNames() {
     });
 }
 
-// Funktion für Massenimport (z.B. 15 Namen auf einmal)
+// Funktion für Massenimport 
 function importMassList() {
     const text = massInput.value.trim();
     if (!text) return;
@@ -146,64 +146,136 @@ profileSelect.addEventListener('change', (e) => {
 });
 
 // ZUFALLSLOGIK & ANIMATION (VOLLBILD)
+let generatedGroups = [];
+
 generateBtn.addEventListener('click', () => {
-    const activeStudents = appData.profiles[appData.currentProfile]
+    let activeStudents = appData.profiles[appData.currentProfile]
         .filter(s => s.present)
         .map(s => s.name);
 
     const size = parseInt(groupSizeInput.value);
 
     if (activeStudents.length === 0) {
-    alert('Es gibt keine anwesenden Teilnehmer für die Einteilung!');
-    return;
-}
+        alert('Es gibt keine anwesenden Teilnehmer für die Einteilung!');
+        return;
+    }
     if (isNaN(size) || size < 1) {
         alert('Bitte geben Sie eine gültige Gruppengröße ein!');
         return;
     }
 
-    // 1. Overlay anzeigen und Animation starten
+ 
     fullscreenOverlay.classList.remove('hidden');
     loaderScreen.classList.remove('hidden');
     resultScreen.classList.add('hidden');
 
-    // Fisher-Yates Shuffle (Zufallsmix)
+    // Fisher-Yates Shuffle
     for (let i = activeStudents.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [activeStudents[i], activeStudents[j]] = [activeStudents[j], activeStudents[i]];
     }
 
-    // 2. Timer für 1.5 Sekunden (1500ms)
+    // Таймер на 1.5 секунди
     setTimeout(() => {
-        resultsGrid.innerHTML = '';
-        let groupIndex = 1;
+        generatedGroups = []; // Очищаємо попередні групи
 
-        for (let i = 0; i < activeStudents.length; i += size) {
-            const groupChunk = activeStudents.slice(i, i + size);
-
-            const card = document.createElement('div');
-            card.className = 'group-giant-card';
-            
-            // HTML-Struktur für Namen untereinander (Spalte)
-            let namesHTML = '<div class="group-names-list">';
-            groupChunk.forEach(name => {
-                namesHTML += `<div class="group-student-name">${name}</div>`;
-            });
-            namesHTML += '</div>';
-
-            card.innerHTML = `
-                <h3>Gruppe ${groupIndex}</h3>
-                ${namesHTML}
-            `;
-            resultsGrid.appendChild(card);
-            groupIndex++;
+        // Замість створення HTML, спочатку просто нарізаємо масив на групи
+        while (activeStudents.length > 0) {
+            const groupChunk = activeStudents.splice(0, size);
+            generatedGroups.push(groupChunk);
         }
 
-        // Loader ausblenden, Ergebnisse einblenden
+        
+        renderGeneratedGroups();
+
+        
         loaderScreen.classList.add('hidden');
         resultScreen.classList.remove('hidden');
     }, 1500);
 });
+
+
+function renderGeneratedGroups() {
+    resultsGrid.innerHTML = '';
+
+    generatedGroups.forEach((group, groupIndex) => {
+        // Якщо група пуста — не рендеримо її
+        if (group.length === 0) return;
+
+        const card = document.createElement('div');
+        card.className = 'group-giant-card';
+        card.setAttribute('data-group-index', groupIndex);
+        
+       
+        card.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            card.classList.add('drag-over');
+        });
+
+        card.addEventListener('dragleave', () => {
+            card.classList.remove('drag-over');
+        });
+
+        card.addEventListener('drop', (e) => {
+            e.preventDefault();
+            card.classList.remove('drag-over');
+            
+            const fromGroupIndex = parseInt(e.dataTransfer.getData('text/from-group'));
+            const studentIndex = parseInt(e.dataTransfer.getData('text/student-index'));
+            const toGroupIndex = groupIndex;
+
+            if (fromGroupIndex === toGroupIndex) return;
+
+            
+            const [student] = generatedGroups[fromGroupIndex].splice(studentIndex, 1);
+            generatedGroups[toGroupIndex].push(student);
+
+            
+            if (generatedGroups[fromGroupIndex].length === 0) {
+                generatedGroups.splice(fromGroupIndex, 1);
+            }
+
+            
+            renderGeneratedGroups();
+        });
+        
+        let namesHTML = '<div class="group-names-list">';
+        group.forEach((name, studentIndex) => {
+            const elementId = `drag-${groupIndex}-${studentIndex}`;
+            namesHTML += `
+                <div class="group-student-name" 
+                     draggable="true" 
+                     id="${elementId}"
+                     data-group="${groupIndex}" 
+                     data-index="${studentIndex}">
+                    <span class="drag-handle">☰</span>
+                    <span class="student-text-name">${name}</span>
+                </div>
+            `;
+        });
+        namesHTML += '</div>';
+
+        card.innerHTML = `
+            <h3>Gruppe ${groupIndex + 1}</h3>
+            ${namesHTML}
+        `;
+        
+        resultsGrid.appendChild(card);
+        
+        
+        card.querySelectorAll('.group-student-name').forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/from-group', item.getAttribute('data-group'));
+                e.dataTransfer.setData('text/student-index', item.getAttribute('data-index'));
+                item.classList.add('dragging');
+            });
+
+            item.addEventListener('dragend', () => {
+                item.classList.remove('dragging');
+            });
+        });
+    });
+}
 
 // Schließen des Overlays
 closeOverlayBtn.addEventListener('click', () => {
