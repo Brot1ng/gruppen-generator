@@ -16,16 +16,17 @@ body {
     background-color: var(--bg);
     color: var(--text);
     margin: 0;
-    padding: 0;           
+    padding: 20px;         
     display: flex;
     flex-direction: column;
-    width: 100vw;         
-    height: 100vh;        
-    overflow: hidden;     
+    min-height: 100vh;     
+   
+    overflow-y: auto;      
+    overflow-x: hidden;    
     box-sizing: border-box;
 }
 
-
+/* Top-Bar */
 .top-bar {
     display: flex;
     justify-content: space-between;
@@ -271,13 +272,13 @@ body {
     display: flex;
     flex-wrap: wrap;          
     justify-content: center;   
-    align-content: flex-start; 
+    align-content: flex-start;
     gap: 24px;                
     padding: 20px;
     flex: 1;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;          
+    overflow: hidden;         
 }
 
 
@@ -286,7 +287,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    padding: 15px;             
+    padding: 15px;            
     width: 250px;              
     height: fit-content;
     display: flex;
@@ -308,7 +309,6 @@ body {
         border-radius: 12px;
     }
 
-   
     .group-giant-card h3 {
         font-size: 1.1rem !important; 
     }
@@ -322,7 +322,7 @@ body {
 
 .group-giant-card h3 {
     background: linear-gradient(135deg, #3b82f6, #1d4ed8); 
-    color: #ffffff; 
+    color: #ffffff; /* Чистий білий текст */
     margin: 0;
     padding: 14px 0;
     font-size: 1.4rem;
@@ -358,7 +358,6 @@ body {
     background: rgba(59, 130, 246, 0.15); 
     border-color: rgba(59, 130, 246, 0.3);
 }
-
 
 .group-student-name {
     display: flex;
