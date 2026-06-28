@@ -1,10 +1,9 @@
-
 let appData = JSON.parse(localStorage.getItem('teacherRandomizerData'));
 
 if (!appData || !appData.profiles) {
     appData = {
-        currentProfile: '', // Порожній поточний профіль
-        profiles: {}        // Жодного класу в базі немає
+        currentProfile: '', 
+        profiles: {}        
     };
     localStorage.setItem('teacherRandomizerData', JSON.stringify(appData));
 }
@@ -47,7 +46,6 @@ function updateProfileDropdown() {
 function renderNames() {
     namesList.innerHTML = '';
     
-    
     if (!appData.currentProfile || !appData.profiles[appData.currentProfile]) {
         namesList.innerHTML = '<p class="hint">Erstellen Sie zuerst eine neue Klasse mit dem "+" Button oben rechts.</p>';
         return;
@@ -83,7 +81,7 @@ function renderNames() {
     });
 }
 
-// Funktion für Massenimport 
+// Funktion für Massenimport (z.B. 15 Namen auf einmal)
 function importMassList() {
     const text = massInput.value.trim();
     if (!text) return;
@@ -164,7 +162,7 @@ generateBtn.addEventListener('click', () => {
         return;
     }
 
- 
+   
     fullscreenOverlay.classList.remove('hidden');
     loaderScreen.classList.remove('hidden');
     resultScreen.classList.add('hidden');
@@ -175,25 +173,21 @@ generateBtn.addEventListener('click', () => {
         [activeStudents[i], activeStudents[j]] = [activeStudents[j], activeStudents[i]];
     }
 
-    // Таймер на 1.5 секунди
-    setTimeout(() => {
-        generatedGroups = []; // Очищаємо попередні групи
 
-        // Замість створення HTML, спочатку просто нарізаємо масив на групи
+    setTimeout(() => {
+        generatedGroups = []; 
+
         while (activeStudents.length > 0) {
             const groupChunk = activeStudents.splice(0, size);
             generatedGroups.push(groupChunk);
         }
 
-        
         renderGeneratedGroups();
 
-        
         loaderScreen.classList.add('hidden');
         resultScreen.classList.remove('hidden');
     }, 1500);
 });
-
 
 function renderGeneratedGroups() {
     resultsGrid.innerHTML = '';
@@ -206,7 +200,6 @@ function renderGeneratedGroups() {
         card.className = 'group-giant-card';
         card.setAttribute('data-group-index', groupIndex);
         
-       
         card.addEventListener('dragover', (e) => {
             e.preventDefault();
             card.classList.add('drag-over');
@@ -226,16 +219,15 @@ function renderGeneratedGroups() {
 
             if (fromGroupIndex === toGroupIndex) return;
 
-            
             const [student] = generatedGroups[fromGroupIndex].splice(studentIndex, 1);
             generatedGroups[toGroupIndex].push(student);
 
-            
+
             if (generatedGroups[fromGroupIndex].length === 0) {
                 generatedGroups.splice(fromGroupIndex, 1);
             }
 
-            
+
             renderGeneratedGroups();
         });
         
@@ -262,7 +254,6 @@ function renderGeneratedGroups() {
         
         resultsGrid.appendChild(card);
         
-        
         card.querySelectorAll('.group-student-name').forEach(item => {
             item.addEventListener('dragstart', (e) => {
                 e.dataTransfer.setData('text/from-group', item.getAttribute('data-group'));
@@ -274,6 +265,7 @@ function renderGeneratedGroups() {
                 item.classList.remove('dragging');
             });
         });
+        initEmptySpaceDrop();
     });
 }
 
@@ -282,6 +274,42 @@ closeOverlayBtn.addEventListener('click', () => {
     fullscreenOverlay.classList.add('hidden');
 });
 
-// System starten
+
+function initEmptySpaceDrop() {
+    const grid = document.querySelector('.results-max-grid');
+    if (!grid) return;
+
+    grid.addEventListener('dragover', (e) => {
+        e.preventDefault(); 
+    });
+
+    grid.addEventListener('drop', (e) => {
+        if (e.target.classList.contains('results-max-grid')) {
+            e.preventDefault();
+            
+            const draggingElem = document.querySelector('.group-student-name.dragging');
+            if (!draggingElem) return;
+            
+            const studentName = draggingElem.querySelector('.student-text-name').textContent.trim();
+            
+            for (let i = 0; i < generatedGroups.length; i++) {
+                const index = generatedGroups[i].indexOf(studentName);
+                if (index !== -1) {
+                    generatedGroups[i].splice(index, 1); 
+                    
+                    if (generatedGroups[i].length === 0) {
+                        generatedGroups.splice(i, 1);
+                    }
+                    break;
+                }
+            }
+            
+            generatedGroups.push([studentName]);
+            
+            renderGeneratedGroups();
+        }
+    });
+}
+
 updateProfileDropdown();
 renderNames();
