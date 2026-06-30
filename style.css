@@ -302,10 +302,10 @@ body {
 .group-giant-card {
     background: #1e293b;       
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    padding: 15px;            
-    width: 250px;              
+    padding: 6px;            
+    width: 100%;              
     height: fit-content;
     display: flex;
     flex-direction: column;
