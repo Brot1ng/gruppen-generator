@@ -278,7 +278,24 @@ body {
     flex: 1;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;         
+    max-height: 72vh;          
+    overflow-y: auto;          
+    overflow-x: hidden;     
+}
+
+.results-max-grid::-webkit-scrollbar {
+    width: 8px;
+}
+.results-max-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+}
+.results-max-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+.results-max-grid::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.4); 
 }
 
 
@@ -309,20 +326,29 @@ body {
         border-radius: 12px;
     }
 
+
+
     .group-giant-card h3 {
         font-size: 1.1rem !important; 
     }
 
     .group-student-name {
-        font-size: 1.1rem !important; 
-        padding: 8px 10px !important;
-    }
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 8px 10px !important;
+    margin-bottom: 6px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 38px;
+    overflow: hidden; }
 }
 
 
 .group-giant-card h3 {
     background: linear-gradient(135deg, #3b82f6, #1d4ed8); 
-    color: #ffffff; /* Чистий білий текст */
+    color: #ffffff; 
     margin: 0;
     padding: 14px 0;
     font-size: 1.4rem;
@@ -341,43 +367,54 @@ body {
 }
 
 
-.group-student-name {
-    font-size: 1.6rem; 
-    font-weight: 700;
-    color: #f8fafc; 
-    text-align: center;
-    padding: 10px 12px;
-    background: rgba(255, 255, 255, 0.05); 
-    border-radius: 8px; 
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: background 0.2s;
-}
-
-
-.group-student-name:hover {
-    background: rgba(59, 130, 246, 0.15); 
-    border-color: rgba(59, 130, 246, 0.3);
-}
 
 .group-student-name {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: grab;
+    align-items: center;       
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 6px 10px !important;
+    margin-bottom: 6px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 48px;              
+    overflow: hidden;
+    gap: 10px;                 
+    cursor: grab;             
     user-select: none;
     transition: all 0.2s ease;
+}
+
+.group-student-name:hover {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.drag-handle {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 1.1rem;
+    flex-shrink: 0;            
+    cursor: grab;
+}
+
+.student-text-name {
+    font-weight: 700;          
+    color: #f8fafc;
+    text-align: center;
+    width: 100%;
+    line-height: 1.1;
+    
+    font-size: clamp(1rem, 1.8vw, 1.4rem); 
+    
+    word-break: break-word;   
+    overflow: hidden;
 }
 
 .group-student-name.dragging {
     opacity: 0.4;
     transform: scale(0.95);
     border: 1px dashed #38bdf8;
-}
-
-.drag-handle {
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 1.1rem;
-    cursor: grab;
 }
 
 .group-student-name:hover .drag-handle {
@@ -388,10 +425,4 @@ body {
     border-color: #38bdf8;
     box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
     transform: scale(1.02);
-}
-
-.student-text-name {
-    flex: 1;
-    text-align: center;
-    word-break: break-word;
 }
