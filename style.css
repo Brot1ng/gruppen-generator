@@ -146,7 +146,7 @@ body {
     margin: 12px 0;
 }
 
-/* Schüler-Raster */
+/* SchГјler-Raster */
 .names-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -154,7 +154,7 @@ body {
     margin-top: 15px;
 }
 
-/* Schüler-Kärtchen */
+/* SchГјler-KГ¤rtchen */
 .student-card {
     display: flex;
     justify-content: space-between;
@@ -252,7 +252,7 @@ body {
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* Riesiges Raster für Gruppen */
+/* Riesiges Raster fГјr Gruppen */
 .result-container {
     width: 90%; height: 90%;
     display: flex;
@@ -302,10 +302,10 @@ body {
 .group-giant-card {
     background: #1e293b;       
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    padding: 6px;            
-    width: 100%;              
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 15px;            
+    width: 250px;              
     height: fit-content;
     display: flex;
     flex-direction: column;
