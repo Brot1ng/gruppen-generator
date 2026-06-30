@@ -252,13 +252,15 @@ body {
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* Riesiges Raster für Gruppen */
 .result-container {
-    width: 90%; height: 90%;
+    width: 95%; 
+    height: auto;              
     display: flex;
     flex-direction: column;
     position: relative;
+    padding-bottom: 60px;      
 }
+
 .close-btn {
     position: absolute; top: 0; right: 0;
     background: #ef4444; color: white; border: none;
@@ -273,14 +275,16 @@ body {
     flex-wrap: wrap;          
     justify-content: center;   
     align-content: flex-start;
-    gap: 24px;                
-    padding: 20px;
+    gap: 16px 14px;            
+    padding: 10px 20px;
     flex: 1;
     width: 100%;
     box-sizing: border-box;
-    max-height: 72vh;          
-    overflow-y: auto;          
-    overflow-x: hidden;     
+    max-height: none !important;          
+    overflow: visible !important;          
+    position: relative !important;
+    z-index: 9999 !important;
+    margin-bottom: 40px !important;
 }
 
 .results-max-grid::-webkit-scrollbar {
@@ -318,6 +322,8 @@ body {
     .results-max-grid {
         gap: 12px;             
         padding: 10px 20px;
+        max-height: none !important;   
+        overflow: visible !important;
     }
 
     .group-giant-card {
