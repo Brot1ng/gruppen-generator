@@ -262,11 +262,28 @@ body {
 }
 
 .close-btn {
-    position: absolute; top: 0; right: 0;
-    background: #ef4444; color: white; border: none;
-    padding: 10px 20px; font-size: 1.2rem; font-weight: bold;
-    border-radius: 6px; cursor: pointer;
+    position: fixed; 
+    top: 20px; 
+    right: 20px;
+    
+    background: #ef4444; 
+    color: white; 
+    border: none;
+    padding: 12px 24px;         
+    font-size: 1.2rem; 
+    font-weight: bold;
+    border-radius: 8px; 
+    cursor: pointer;
+    
+    z-index: 100000 !important; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: background 0.2s;
 }
+
+.close-btn:hover {
+    background: #dc2626;        
+}
+
 .result-title { text-align: center; font-size: 2.5rem; color: #38bdf8; margin-top: 0; }
 
 
